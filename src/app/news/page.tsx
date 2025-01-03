@@ -1,20 +1,20 @@
 import {TranslationContextProvider} from '@/translation/translation.context'
 import {TSearchParams} from '@/types/common.type'
 import {getDictionary} from '@/utils/getDictionary'
-import HomeView from '@/views/HomeView/HomeView'
+import NewsView from '@/views/NewsView/NewsView'
 
 type Props = {
 	searchParams: TSearchParams
 }
 
-const HomePage = async ({searchParams}: Props) => {
+const NewsPage = async ({searchParams}: Props) => {
 	const {lang} = await searchParams
 	const locale = await getDictionary(lang)
 	return (
 		<TranslationContextProvider dictionary={locale}>
-			<HomeView lang={locale} />
+			<NewsView lang={locale} />
 		</TranslationContextProvider>
 	)
 }
 
-export default HomePage
+export default NewsPage

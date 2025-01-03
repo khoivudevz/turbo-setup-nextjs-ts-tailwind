@@ -1,0 +1,11 @@
+{
+	"lang": "english",
+	"home": {
+		"title": "Home",
+		"welcome_to_home": "Welcome to the home page",
+		"welcome_to_news": "Welcome to the news page",
+		"news": "Latest news",
+		"move_to_news": "Move to news",
+		"move_to_home": "Move to home"
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"lang": "korean",
+	"home": {
+		"title": "홈",
+		"welcome_to_home": "안녕하세요 홈페이지 입니다.",
+		"welcome_to_news": "뉴스 페이지에 오신 것을 환영합니다",
+		"news": "최신 뉴스",
+		"move_to_news": "뉴스로 이동",
+		"move_to_home": "홈으로 이동"
+	}
+}
