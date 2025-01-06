@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Turbo Setup NextJS - TS - TailwindCSS
+
+A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and internationalization support.
+
+## Features
+
+- 🚀 Next.js 15.1.3
+- 📝 TypeScript
+- 🎨 TailwindCSS
+- 🌐 i18n Support (English & Korean)
+- 🔍 ESLint + Prettier
+- 🪝 Husky Git Hooks
+- 🏷️ Conventional Commits
+- 🔄 Environment Configuration
+- 📦 Zustand State Management
+- 🎯 Path Aliases
+- 🔒 Type-Safe API Calls
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- Bun
+
+### Installation
+
+1. Clone the repository:
+
+```
+git clone https://github.com/yourusername/turbo-setup-nextjs-ts-tailwind.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create environment files:
 
-## Learn More
+```
+cp .env.example .env.dev
+cp .env.example .env.staging
+cp .env.example .env.prod
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Start the development server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Development
+bun run dev
 
-## Deploy on Vercel
+# Staging
+bun run dev:staging
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Production
+bun run dev:prod
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The application will be available at `http://localhost:8000`
+
+### Building
+
+```bash
+# Development
+bun run build:dev
+
+# Staging
+bun run build:staging
+
+# Production
+bun dev
+
+```
+
+## Project Structure
+
+```
+src/
+├── app/ # Next.js app directory
+├── components/ # Reusable components
+├── configs/ # Configuration files
+├── constants/ # Constants and enums
+├── hooks/ # Custom React hooks
+├── providers/ # React context providers
+├── services/ # API services
+├── styles/ # Global styles
+├── translation/ # i18n translations
+├── types/ # TypeScript types
+├── utils/ # Utility functions
+└── views/ # Page-specific view components
+```
+
+## Internationalization
+
+The project supports multiple languages through a custom translation system. Currently supported languages:
+
+- English (en)
+- Korean (ko)
+
+To add a new translation:
+
+1. Create a new JSON file in `src/translation/locales/{lang}/common.json`
+2. Add the language option in `src/constants/common.constant.ts`
+3. Update the dictionary import in `src/utils/getDictionary.ts`
+
+## Git Hooks
+
+This project uses Husky for Git hooks:
+
+- Pre-commit: Runs TypeScript compilation, lint-staged, and build
+- Commit message: Enforces conventional commit messages
+
+## Environment Variables
+
+The project supports multiple environments:
+
+- Development (.env.dev)
+- Staging (.env.staging)
+- Production (.env.prod)
+
+Required environment variables:
+
+```env
+NEXT_PUBLIC_ENV=
+NEXT_PUBLIC_USER_API_URL=
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
