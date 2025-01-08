@@ -1,38 +1,40 @@
 'use client'
 
-import {LANG} from '@/constants/common.constant'
-import useRouter from '@/hooks/useRouter'
+import {Locale} from '@/i18n/config'
+import {localeClientServices} from '@/services/locale-client.service'
 import {cn} from '@/utils/cn.util'
-import {getLanguageParam, switchLanguage} from '@/utils/language.util'
-import {useSearchParams} from 'next/navigation'
+import {useLocale} from 'next-intl'
 
 const SwitchLanguage = () => {
-	const searchParams = useSearchParams()
-	const navigate = useRouter()
-	const lang = getLanguageParam(searchParams)
+	const locale = useLocale()
+
+	const switchLanguage = (newLang: Locale) => {
+		localeClientServices.setUserLocale(newLang)
+		window.location.reload()
+	}
 
 	return (
 		<div className='flex gap-2'>
 			<button
 				onClick={() => {
-					if (lang === LANG.EN) return
-					switchLanguage({newLang: LANG.EN, searchParams, navigate})
+					if (locale === 'en') return
+					switchLanguage('en')
 				}}
 				className={cn(
 					'bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300',
-					lang === LANG.EN && 'bg-white text-black cursor-default'
+					locale === 'en' && 'bg-white text-black cursor-default'
 				)}
 			>
 				EN
 			</button>
 			<button
 				onClick={() => {
-					if (lang === LANG.KO) return
-					switchLanguage({newLang: LANG.KO, searchParams, navigate})
+					if (locale === 'ko') return
+					switchLanguage('ko')
 				}}
 				className={cn(
 					'bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300',
-					lang === LANG.KO && 'bg-white text-black cursor-default'
+					locale === 'ko' && 'bg-white text-black cursor-default'
 				)}
 			>
 				KO

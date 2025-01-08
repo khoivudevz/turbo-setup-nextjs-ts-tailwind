@@ -1,7 +1,3 @@
-import {
-	LOCAL_STORAGE_KEY,
-	localStorageServices,
-} from '@/services/localStorage.service'
 import {useRouter as useRouterBase} from 'next/navigation'
 
 export type Router = {
@@ -18,45 +14,15 @@ export type Router = {
 const useRouter: () => Router = () => {
 	const router = useRouterBase()
 
-	const push = (
-		url: string,
-		refresh: boolean = false,
-		lang?: string,
-		options?: any
-	) => {
-		if (lang) {
-			const isExistParams = url.includes('?')
-
-			const newUrl = `${url}${
-				isExistParams ? `&lang=${lang}` : `?lang=${lang}`
-			}`
-			localStorageServices.setLocalStorage(lang, LOCAL_STORAGE_KEY.LANG)
-			router.push(newUrl, options)
-		} else {
-			router.push(url, options)
-		}
+	const push = (url: string, refresh: boolean = false, options?: any) => {
+		router.push(url, options)
 		if (refresh) {
 			router.refresh()
 		}
 	}
 
-	const replace = (
-		url: string,
-		refresh: boolean = false,
-		lang?: string,
-		options?: any
-	) => {
-		if (lang) {
-			const isExistParams = url.includes('?')
-
-			const newUrl = `${url}${
-				isExistParams ? `&lang=${lang}` : `?lang=${lang}`
-			}`
-			localStorageServices.setLocalStorage(lang, LOCAL_STORAGE_KEY.LANG)
-			router.push(newUrl, options)
-		} else {
-			router.push(url, options)
-		}
+	const replace = (url: string, refresh: boolean = false, options?: any) => {
+		router.push(url, options)
 		if (refresh) {
 			router.refresh()
 		}

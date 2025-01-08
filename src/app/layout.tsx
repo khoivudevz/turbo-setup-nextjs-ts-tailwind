@@ -2,6 +2,8 @@ import type {Metadata} from 'next'
 import {Geist, Geist_Mono} from 'next/font/google'
 import AppProvider from '@/providers/AppProvider'
 import '@/styles/globals.css'
+import {NextIntlClientProvider} from 'next-intl'
+import {getLocale, getMessages} from 'next-intl/server'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -18,17 +20,24 @@ export const metadata: Metadata = {
 	description: 'Turbo Setup NextJS - TS - TailwindCSS',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	const locale = await getLocale()
+	const messages = await getMessages()
+
 	return (
-		<html lang='en'>
+		<html lang={locale}>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<AppProvider initLanguage={true}>{children}</AppProvider>
+				<AppProvider>
+					<NextIntlClientProvider messages={messages}>
+						{children}
+					</NextIntlClientProvider>
+				</AppProvider>
 			</body>
 		</html>
 	)

@@ -1,15 +1,8 @@
-export const LANG = {
-	EN: 'en',
-	KO: 'ko',
-}
-
 export const ENV = {
 	DEV: 'dev',
 	STG: 'stg',
 	PRD: 'prd',
 }
-
-export const DEFAULT_LANG = 'en'
 
 export const REGEX = {
 	CONTAIN_NUMBER: /^\d/,

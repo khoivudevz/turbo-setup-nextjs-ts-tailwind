@@ -2,9 +2,8 @@
 
 import {APP_URL} from '@/configs/app-url.config'
 import useRouter from '@/hooks/useRouter'
-import {useTranslationContext} from '@/translation/translation.context'
-import {getLanguageParam} from '@/utils/language.util'
-import {useSearchParams} from 'next/navigation'
+import {useTranslations} from 'next-intl'
+
 import {FC} from 'react'
 
 type Props = {
@@ -12,16 +11,14 @@ type Props = {
 }
 
 const Button: FC<Props> = ({page}) => {
-	const {t} = useTranslationContext()
-	const searchParams = useSearchParams()
-	const lang = getLanguageParam(searchParams)
 	const router = useRouter()
+	const t = useTranslations()
 
 	const handleClick = () => {
 		if (page === APP_URL.HOME) {
-			router.push(APP_URL.NEWS, false, lang)
+			router.push(APP_URL.NEWS, false)
 		} else {
-			router.push(APP_URL.HOME, false, lang)
+			router.push(APP_URL.HOME, false)
 		}
 	}
 
