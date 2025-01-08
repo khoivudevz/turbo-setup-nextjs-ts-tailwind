@@ -79,6 +79,8 @@ bun dev
 ## Project Structure
 
 ```
+messages/ # Translation message files
+├── [locale].json
 src/
 ├── app/ # Next.js app directory with route handlers
 ├── components/ # Reusable UI components
@@ -86,7 +88,6 @@ src/
 ├── constants/ # Constants and regex patterns
 ├── hooks/ # Custom React hooks
 ├── i18n/ # Internationalization configuration
-├── messages/ # Translation message files
 ├── providers/ # React context providers
 ├── services/ # API and utility services
 ├── styles/ # Global styles and Tailwind config
