@@ -15,6 +15,7 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 - 📦 Zustand State Management
 - 🎯 Path Aliases
 - 🔒 Type-Safe API Calls
+- 🔄 **Nuqs** for URL query state management
 
 ## Getting Started
 
@@ -98,8 +99,6 @@ src/
 
 ## Internationalization
 
-## Internationalization
-
 The project uses `next-intl` for internationalization. Currently supported languages:
 
 - English (en)
@@ -149,6 +148,23 @@ The internationalization setup is configured in:
 - `next.config.ts` - Next.js configuration with next-intl plugin
 - `src/i18n/config.ts` - Locale configuration and defaults
 - `src/i18n/request.ts` - Server-side locale detection
+
+## Nuqs Integration
+
+The project uses `nuqs` for managing URL query state. This allows for seamless synchronization of component state with URL query parameters, enhancing the user experience by maintaining state across page reloads and navigations.
+
+### Example Usage
+
+In the `SearchDemo` component, `nuqs` is used to manage the `name` query parameter:
+
+```typescript
+import {useQueryState} from 'nuqs'
+
+const SearchDemo = () => {
+	const [name, setName] = useQueryState('name')
+	// ... component logic
+}
+```
 
 ## Git Hooks
 
