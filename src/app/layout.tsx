@@ -4,6 +4,7 @@ import AppProvider from '@/providers/AppProvider'
 import '@/styles/globals.css'
 import {NextIntlClientProvider} from 'next-intl'
 import {getLocale, getMessages} from 'next-intl/server'
+import {NuqsAdapter} from 'nuqs/adapters/next/app'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -33,11 +34,13 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<AppProvider>
-					<NextIntlClientProvider messages={messages}>
-						{children}
-					</NextIntlClientProvider>
-				</AppProvider>
+				<NuqsAdapter>
+					<AppProvider>
+						<NextIntlClientProvider messages={messages}>
+							{children}
+						</NextIntlClientProvider>
+					</AppProvider>
+				</NuqsAdapter>
 			</body>
 		</html>
 	)
