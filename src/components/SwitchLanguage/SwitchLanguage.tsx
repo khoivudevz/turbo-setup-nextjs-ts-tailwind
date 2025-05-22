@@ -5,6 +5,11 @@ import {localeClientServices} from '@/services/locale-client.service'
 import {cn} from '@/utils/cn.util'
 import {useLocale} from 'next-intl'
 
+const LANGUAGES = [
+	{code: 'en', label: 'EN', icon: '🇺🇸'},
+	{code: 'ko', label: 'KO', icon: '🇰🇷'},
+]
+
 const SwitchLanguage = () => {
 	const locale = useLocale()
 
@@ -14,31 +19,28 @@ const SwitchLanguage = () => {
 	}
 
 	return (
-		<div className='flex gap-2'>
-			<button
-				onClick={() => {
-					if (locale === 'en') return
-					switchLanguage('en')
-				}}
-				className={cn(
-					'bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300',
-					locale === 'en' && 'bg-white text-black cursor-default'
-				)}
-			>
-				EN
-			</button>
-			<button
-				onClick={() => {
-					if (locale === 'ko') return
-					switchLanguage('ko')
-				}}
-				className={cn(
-					'bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300',
-					locale === 'ko' && 'bg-white text-black cursor-default'
-				)}
-			>
-				KO
-			</button>
+		<div className='flex space-x-[5px] items-center justify-center my-4'>
+			<span className='text-xl mr-2' title='Change language'>
+				🌐
+			</span>
+			{LANGUAGES.map((lang) => (
+				<button
+					key={lang.code}
+					onClick={() => {
+						if (locale === lang.code) return
+						switchLanguage(lang.code as Locale)
+					}}
+					className={cn(
+						'flex items-center gap-2 px-4 py-2 rounded-full border-2 border-transparent transition-all duration-300 font-semibold text-base shadow-sm',
+						locale === lang.code
+							? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-pink-400 scale-105 cursor-default'
+							: 'bg-gray-800 text-gray-200 hover:bg-gray-700 hover:border-pink-400 hover:text-white'
+					)}
+					disabled={locale === lang.code}
+				>
+					<span className='text-lg'>{lang.icon}</span>
+				</button>
+			))}
 		</div>
 	)
 }

@@ -6,6 +6,81 @@
 		"welcome_to_news": "Welcome to the news page",
 		"news": "Latest news",
 		"move_to_news": "Move to news",
-		"move_to_home": "Move to home"
+		"move_to_home": "Move to home",
+		"main_heading": "Welcome to Turbo Next.js Starter!",
+		"sub_heading": "A beautiful, modern, and dark-themed Next.js template.",
+		"description": "Kickstart your project with TypeScript, TailwindCSS, and blazing fast performance.",
+		"get_started": "Get Started",
+		"feature_1": "Lightning Fast Setup",
+		"feature_2": "Modern UI/UX",
+		"feature_3": "Easy Multilanguage Support",
+		"quote": "The best way to get started is to quit talking and begin doing.",
+		"news_heading": "Latest Tech News",
+		"news_description": "Stay updated with the latest trends and stories in technology.",
+		"news_card_title": "Breaking News",
+		"news_card_content": "Next.js 14 released with amazing new features!",
+		"features": [
+			{
+				"icon": "🚀",
+				"title": "Next.js 15.1.3",
+				"desc": "Latest Next.js for modern web apps."
+			},
+			{
+				"icon": "📝",
+				"title": "TypeScript",
+				"desc": "Type-safe coding for reliability."
+			},
+			{
+				"icon": "🎨",
+				"title": "TailwindCSS",
+				"desc": "Rapid, beautiful UI development."
+			},
+			{
+				"icon": "🌐",
+				"title": "i18n Support",
+				"desc": "Multilanguage support (English & Korean)."
+			},
+			{
+				"icon": "🔍",
+				"title": "ESLint + Prettier",
+				"desc": "Consistent code style and quality."
+			},
+			{
+				"icon": "🪝",
+				"title": "Husky Git Hooks",
+				"desc": "Automated checks before every commit."
+			},
+			{
+				"icon": "🏷️",
+				"title": "Conventional Commits",
+				"desc": "Standardized commit messages."
+			},
+			{"icon": "🔄", "title": "Nuqs", "desc": "URL query state management."},
+			{
+				"icon": "📦",
+				"title": "Zustand State Management",
+				"desc": "Simple and scalable state management."
+			},
+			{
+				"icon": "🎯",
+				"title": "Path Aliases",
+				"desc": "Clean and easy imports."
+			},
+			{
+				"icon": "🔒",
+				"title": "Type-Safe API Calls",
+				"desc": "Secure and robust API integration."
+			},
+			{
+				"icon": "🔄",
+				"title": "Environment Configuration",
+				"desc": "Multiple environment support."
+			}
+		]
+	},
+	"search": {
+		"placeholder": "Type your search...",
+		"clear": "Clear",
+		"result_label": "Search text:"
 	}
 }
