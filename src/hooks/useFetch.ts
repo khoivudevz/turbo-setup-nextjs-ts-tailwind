@@ -1,47 +1,54 @@
+import {AxiosResponse} from 'axios'
 import {useEffect, useState} from 'react'
 
 const useFetch = <T>(
-	fetchFunction: () => Promise<T> | null,
-	dependencies: ReadonlyArray<unknown> = []
+	fetchFunction: () => Promise<AxiosResponse<T>> | null,
+	dependencies: ReadonlyArray<unknown> = [],
+	searchParams?: URLSearchParams
 ) => {
-	const [res, setRes] = useState<T | null>(null)
+	const [data, setData] = useState<T | null>(null)
 	const [loading, setLoading] = useState<boolean>(true)
 	const [error, setError] = useState<Error | null>(null)
-	const [refetch, setRefetch] = useState<string>(
-		new Date().getTime().toString()
-	)
-	const [isAuthError, setIsAuthError] = useState<boolean>(false)
+	const [refetch, setRefetch] = useState<boolean>(false)
+	const [status, setStatus] = useState<number | null>(null)
 
 	const refetchData = () => {
-		setRefetch(new Date().getTime().toString())
+		setRefetch(!refetch)
 	}
 
 	useEffect(() => {
+		if (data !== null || error !== null) {
+			setLoading(false)
+		}
+	}, [data, error])
+
+	useEffect(() => {
 		const fetchData = async () => {
+			setLoading(true)
 			try {
-				setLoading(true)
 				const response = await fetchFunction()
 				if (!response) {
-					console.log('No response', response)
+					setError(new Error('No response'))
 					return
 				}
-				setRes(response as T)
+				setData(response.data as T)
+				setStatus(response.status)
 				setError(null)
-			} catch (error: any) {
-				console.log('error: ', error)
+			} catch (error) {
 				setError(error as Error)
-				if (error.status === 401) {
-					setIsAuthError(true)
-				}
-				throw error
-			} finally {
-				setLoading(false)
+				setData(null)
 			}
 		}
-		fetchData()
-	}, [...dependencies, refetch])
 
-	return {res, loading, error, refetchData, isAuthError}
+		if (searchParams && !searchParams.size) {
+			setLoading(false)
+			return
+		}
+
+		fetchData()
+	}, [...dependencies, searchParams, refetch])
+
+	return {data, loading, error, refetchData, status}
 }
 
 export default useFetch
