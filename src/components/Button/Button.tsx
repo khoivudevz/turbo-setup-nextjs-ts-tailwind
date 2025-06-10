@@ -25,7 +25,7 @@ const Button: FC<Props> = ({page}) => {
 	return (
 		<button
 			onClick={handleClick}
-			className='bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300'
+			className='w-fit bg-transparent border-[1px] border-solid border-white text-white px-4 py-2 rounded-md my-[30px] hover:bg-white hover:text-black transition-all duration-300'
 		>
 			{page === APP_URL.HOME ? t('home.move_to_news') : t('home.move_to_home')}
 		</button>
