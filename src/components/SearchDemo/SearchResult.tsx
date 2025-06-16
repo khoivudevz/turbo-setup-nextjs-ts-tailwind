@@ -1,13 +1,13 @@
 'use client'
 
-import useUrlChange from '@/hooks/useUrlChange'
 import {useTranslations} from 'next-intl'
+import {useQueryState} from 'nuqs'
 
 const SearchResult = () => {
 	const t = useTranslations()
-	const {params} = useUrlChange()
+	const [name] = useQueryState('name')
 
-	if (params?.name)
+	if (name)
 		return (
 			<div className='my-4 w-full max-w-md mx-auto'>
 				<div className='bg-gray-900/80 border-2 border-transparent bg-clip-padding rounded-xl px-6 py-4 shadow-lg relative overflow-hidden'>
@@ -20,7 +20,7 @@ const SearchResult = () => {
 					></div>
 					<p className='relative z-10 text-pink-300 font-semibold text-lg'>
 						{t('search.result_label')}{' '}
-						<span className='text-white font-bold'>{params?.name}</span>
+						<span className='text-white font-bold'>{name}</span>
 					</p>
 				</div>
 			</div>

@@ -16,6 +16,7 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 - 🎯 Path Aliases
 - 🔒 Type-Safe API Calls
 - 🔄 **Nuqs** for URL query state management
+- ⚡ **SWR** for data fetching and caching
 
 ## Getting Started
 
@@ -149,19 +150,42 @@ The internationalization setup is configured in:
 - `src/i18n/config.ts` - Locale configuration and defaults
 - `src/i18n/request.ts` - Server-side locale detection
 
-## Nuqs Integration
+## Nuqs & SWR Integration
 
-The project uses `nuqs` for managing URL query state. This allows for seamless synchronization of component state with URL query parameters, enhancing the user experience by maintaining state across page reloads and navigations.
+The project uses modern data management solutions:
+
+### Nuqs
+
+`nuqs` is used for managing URL query state, allowing seamless synchronization of component state with URL query parameters. This enhances the user experience by maintaining state across page reloads and navigations.
+
+### SWR
+
+`swr` provides a powerful data fetching and caching solution with features like:
+
+- Automatic revalidation
+- Real-time experience
+- Suspense mode support
+- TypeScript ready
+- Request deduplication
+- Error handling
+- Optimistic UI updates
 
 ### Example Usage
 
-In the `SearchDemo` component, `nuqs` is used to manage the `name` query parameter:
-
 ```typescript
+// Nuqs example
 import {useQueryState} from 'nuqs'
 
 const SearchDemo = () => {
 	const [name, setName] = useQueryState('name')
+	// ... component logic
+}
+
+// SWR example
+import useSWR from 'swr'
+
+const DataComponent = () => {
+	const {data, error, isLoading} = useSWR('/api/data', fetcher)
 	// ... component logic
 }
 ```
