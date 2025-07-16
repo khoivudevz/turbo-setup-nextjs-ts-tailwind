@@ -6,8 +6,13 @@ import {APP_URL} from '@/configs/app-url.config'
 import {useTranslations} from 'next-intl'
 import {FC} from 'react'
 
-interface NewsViewProps {
-	news?: Array<{id: number; title: string; body: string}>
+type NewsViewProps = {
+	news?: {
+		ticker: string
+		name: string
+		is_etf: boolean | null
+		exchange: string
+	}[]
 }
 
 const NewsView: FC<NewsViewProps> = ({news = []}) => {
@@ -34,13 +39,13 @@ const NewsView: FC<NewsViewProps> = ({news = []}) => {
 				)}
 				{news.map((item) => (
 					<div
-						key={item.id}
+						key={item.ticker}
 						className='bg-gray-900/80 rounded-xl p-6 shadow-lg border border-pink-700/40 w-full mb-4'
 					>
 						<h4 className='text-lg font-semibold mb-2 text-pink-300'>
-							📰 {item.title}
+							📰 {item.name}
 						</h4>
-						<p className='text-gray-300'>{item.body}</p>
+						<p className='text-gray-300'>{item.exchange}</p>
 					</div>
 				))}
 			</section>
