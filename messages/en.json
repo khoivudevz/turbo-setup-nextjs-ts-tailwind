@@ -55,7 +55,16 @@
 				"title": "Conventional Commits",
 				"desc": "Standardized commit messages."
 			},
-			{"icon": "🔄", "title": "Nuqs", "desc": "URL query state management."},
+			{
+				"icon": "🔄",
+				"title": "Nuqs",
+				"desc": "Advanced URL query state management with type safety."
+			},
+			{
+				"icon": "⚡",
+				"title": "SWR",
+				"desc": "Powerful data fetching with automatic caching and revalidation."
+			},
 			{
 				"icon": "📦",
 				"title": "Zustand State Management",
