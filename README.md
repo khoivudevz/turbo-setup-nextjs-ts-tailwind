@@ -42,9 +42,7 @@ bun install
 3. Create environment files:
 
 ```
-cp .env.example .env.dev
-cp .env.example .env.staging
-cp .env.example .env.prod
+cp .env
 ```
 
 ### Development
@@ -52,14 +50,7 @@ cp .env.example .env.prod
 Start the development server:
 
 ```bash
-# Development
 bun run dev
-
-# Staging
-bun run dev:staging
-
-# Production
-bun run dev:prod
 ```
 
 The application will be available at `http://localhost:8000`
@@ -67,14 +58,14 @@ The application will be available at `http://localhost:8000`
 ### Building
 
 ```bash
-# Development
-bun run build:dev
+bun run build
 
-# Staging
-bun run build:staging
+```
 
-# Production
-bun dev
+### Start server
+
+```bash
+bun run start
 
 ```
 
