@@ -5,11 +5,11 @@ import {cookieServices} from './cookie.service'
 
 export const localeClientServices = {
 	getUserLocale() {
-		const locale = cookieServices.getCookie(cookieLocaleKey) || defaultLocale
+		const locale = cookieServices.client.get(cookieLocaleKey) || defaultLocale
 		return locale as Locale
 	},
 
 	setUserLocale(locale: Locale) {
-		cookieServices.setCookie(cookieLocaleKey, locale)
+		cookieServices.client.set(cookieLocaleKey, locale)
 	},
 }
