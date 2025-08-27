@@ -17,6 +17,8 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 - 🔒 Type-Safe API Calls
 - 🔄 **Nuqs** for URL query state management
 - ⚡ **SWR** for data fetching and caching
+- 🔐 **Enhanced Cookie Management** with client/server separation
+- 🛡️ **Middleware-based Authentication** for route protection
 
 ## Getting Started
 
@@ -180,6 +182,194 @@ const DataComponent = () => {
 	// ... component logic
 }
 ```
+
+## Enhanced Cookie Management
+
+The project features a robust cookie management system with clear separation between client and server environments:
+
+### Cookie Services Architecture
+
+```
+src/services/
+├── cookie-client.service.ts  # Client-side cookie operations
+├── cookie-server.service.ts  # Server-side cookie operations (with 'use server')
+└── cookie.service.ts         # Unified exports and backward compatibility
+```
+
+### Key Features
+
+- **Environment Separation**: Dedicated services for client and server environments
+- **Type Safety**: Full TypeScript support with proper async/sync handling
+- **Security**: Automatic secure flags in production, proper SameSite settings
+- **Convenience Methods**: Built-in auth token and locale management
+- **Next.js Compatibility**: Server actions support with `'use server'` directive
+
+### Usage Examples
+
+```typescript
+// Client-side usage
+import {cookieServices} from '@/services/cookie.service'
+
+// Basic operations
+cookieServices.client.set('key', 'value', 7) // 7 days
+const value = cookieServices.client.get('key')
+cookieServices.client.remove('key')
+
+// Auth helpers
+cookieServices.client.setAuthToken(token, rememberMe)
+const isAuthenticated = cookieServices.client.isAuthenticated()
+
+// Server-side usage (in server components/API routes)
+import {cookieServices} from '@/services/cookie.service'
+
+await cookieServices.server.set('key', 'value', 7)
+const value = await cookieServices.server.get('key')
+await cookieServices.server.remove('key')
+
+// Server auth helpers
+await cookieServices.server.setAuthToken(token, rememberMe)
+const isAuth = await cookieServices.server.isAuthenticated()
+```
+
+## Authentication System
+
+The project implements a simplified, middleware-based authentication system that provides robust security with minimal complexity.
+
+### Authentication Architecture
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   User visits   │───▶│   Middleware     │───▶│   Page renders  │
+│   /dashboard    │    │   checks auth    │    │   (if allowed)  │
+│                 │    │   redirects if   │    │                 │
+│                 │    │   needed         │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+```
+
+### Key Components
+
+#### 1. Middleware Route Protection (`middleware.ts`)
+
+Automatically protects routes based on authentication status:
+
+```typescript
+// Define your protected routes
+const protectedRoutes = ['/dashboard', '/profile', '/settings', '/admin']
+const authRoutes = ['/login', '/register'] // Redirect away if already authenticated
+
+// Middleware automatically:
+// - Redirects unauthenticated users from protected routes to login
+// - Redirects authenticated users away from auth routes
+// - Preserves callback URLs for seamless post-login experience
+```
+
+#### 2. Client-Side Auth Hook (`src/hooks/useAuth.ts`)
+
+Manages authentication state and operations:
+
+```typescript
+import {useAuthContext} from '@/providers/AuthProvider'
+
+const {user, isAuthenticated, login, logout, isLoading} = useAuthContext()
+
+// Login
+await login({email, password}, rememberMe)
+
+// Logout
+await logout()
+
+// Check auth status
+if (isAuthenticated) {
+	// User is logged in
+}
+```
+
+#### 3. Auth Provider (`src/providers/AuthProvider.tsx`)
+
+Provides global authentication context:
+
+```typescript
+// app/layout.tsx
+import { AuthProvider } from '@/providers/AuthProvider'
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+### Usage Examples
+
+#### Protected Page (No Auth Code Needed)
+
+```typescript
+// app/dashboard/page.tsx - Middleware handles protection
+export default function DashboardPage() {
+  return <div>Dashboard Content</div>
+}
+```
+
+#### Navigation with Auth State
+
+```typescript
+import { useAuthContext } from '@/providers/AuthProvider'
+
+export function Navigation() {
+  const { isAuthenticated, user, logout } = useAuthContext()
+
+  return (
+    <nav>
+      {isAuthenticated ? (
+        <div>
+          <span>Welcome {user?.email}</span>
+          <button onClick={logout}>Logout</button>
+        </div>
+      ) : (
+        <a href="/login">Login</a>
+      )}
+    </nav>
+  )
+}
+```
+
+#### Login Page
+
+```typescript
+// app/login/page.tsx
+'use client'
+import { useAuthContext } from '@/providers/AuthProvider'
+
+export default function LoginPage() {
+  const { login, isLoading } = useAuthContext()
+
+  const handleLogin = async (credentials) => {
+    try {
+      await login(credentials, rememberMe)
+      // Middleware automatically redirects to intended page
+    } catch (error) {
+      // Handle login error
+    }
+  }
+
+  return <LoginForm onSubmit={handleLogin} loading={isLoading} />
+}
+```
+
+### Authentication Benefits
+
+- **🚀 Simple Setup**: Only middleware + auth context needed
+- **🔒 Secure by Default**: Route protection at the middleware level
+- **⚡ Performance**: No unnecessary component re-renders or guards
+- **🎯 SEO Friendly**: Server-side redirects for better SEO
+- **🔄 Automatic Redirects**: Seamless user experience with callback URLs
+- **📱 TypeScript Ready**: Full type safety throughout the auth flow
 
 ## Git Hooks
 

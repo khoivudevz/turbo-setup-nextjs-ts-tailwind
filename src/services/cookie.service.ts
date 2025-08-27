@@ -1,17 +1,25 @@
-import Cookies from 'js-cookie'
+import {cookieClientService} from './cookie-client.service'
+import * as cookieServerActions from './cookie-server.service'
+
+// Re-export client service and server actions
+export {cookieClientService} from './cookie-client.service'
+export * as cookieServerActions from './cookie-server.service'
+
+// Create server service object for backward compatibility
+export const cookieServerService = {
+	set: cookieServerActions.setCookie,
+	get: cookieServerActions.getCookie,
+	remove: cookieServerActions.removeCookie,
+	setAuthToken: cookieServerActions.setAuthToken,
+	getAuthToken: cookieServerActions.getAuthToken,
+	removeAuthToken: cookieServerActions.removeAuthToken,
+	isAuthenticated: cookieServerActions.isAuthenticated,
+	setLocale: cookieServerActions.setLocale,
+	getLocale: cookieServerActions.getLocale,
+}
 
 export const cookieServices = {
-	setCookie: (key: string, data: any, options = {}) => {
-		Cookies.set(key, data, options)
-	},
-
-	getCookie: (key: string) => {
-		const value = Cookies.get(key)
-		if (value) return value
-		return null
-	},
-
-	removeCookie: (key: string) => {
-		Cookies.remove(key)
-	},
+	// Enhanced methods
+	client: cookieClientService,
+	server: cookieServerService,
 }
