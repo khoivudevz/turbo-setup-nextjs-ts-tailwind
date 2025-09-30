@@ -1,8 +1,8 @@
 'use client'
 
 import {MODAL_KEYS} from '@/constants/modals.constant'
-import useClearModals from '@/hooks/useClearModals'
-import useModalStore from '@/stores/useModal.store'
+import useClearModals from '@/hooks/use-clear-modals'
+import useModalStore from '@/stores/use-modal.store'
 
 const ModalButton = () => {
 	const {openModal} = useModalStore()

@@ -1,6 +1,6 @@
 import dumbServices from '@/services/dumb.service'
 import {TSearchParams} from '@/types/common.type'
-import NewsView from '@/views/NewsView/NewsView'
+import NewsView from '@/views/news-view/news-view'
 
 type Props = {
 	searchParams: TSearchParams

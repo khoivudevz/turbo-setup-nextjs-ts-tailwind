@@ -1,9 +1,9 @@
 'use client'
 
-import useModalStore from '@/stores/useModal.store'
-import Modal from '../Modal'
+import useModalStore from '@/stores/use-modal.store'
+import Modal from '../modal'
 import {MODAL_KEYS} from '@/constants/modals.constant'
-import useNews from '@/hooks/useNews'
+import useNews from '@/hooks/use-news'
 
 type Props = {
 	isOpen: boolean
