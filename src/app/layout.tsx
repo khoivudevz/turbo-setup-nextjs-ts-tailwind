@@ -1,11 +1,11 @@
 import type {Metadata} from 'next'
 import {Geist, Geist_Mono} from 'next/font/google'
-import AppProvider from '@/providers/AppProvider'
+import AppProvider from '@/providers/app-provider'
 import '@/styles/globals.css'
 import {NextIntlClientProvider} from 'next-intl'
 import {getLocale, getMessages} from 'next-intl/server'
 import {NuqsAdapter} from 'nuqs/adapters/next/app'
-import ModalsProvider from '@/providers/ModalsProvider'
+import ModalsProvider from '@/providers/modals-provider'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

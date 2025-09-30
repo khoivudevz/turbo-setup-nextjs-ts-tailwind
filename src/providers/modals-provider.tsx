@@ -1,9 +1,9 @@
 'use client'
 
-import DemoModal from '@/components/Modal/components/DemoModal'
-import ModalWrapper from '@/components/Modal/ModalWrapper'
+import DemoModal from '@/components/modal/components/demo-modal'
+import ModalWrapper from '@/components/modal/modal-wrapper'
 import {MODAL_KEYS} from '@/constants/modals.constant'
-import useModalStore from '@/stores/useModal.store'
+import useModalStore from '@/stores/use-modal.store'
 import {FC} from 'react'
 
 type Props = {

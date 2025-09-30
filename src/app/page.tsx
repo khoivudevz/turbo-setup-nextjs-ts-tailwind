@@ -1,13 +1,12 @@
 import {TSearchParams} from '@/types/common.type'
-
-import HomeView from '@/views/HomeView/HomeView'
+import ExampleView from '@/views/example-view/home-view'
 
 type Props = {
 	searchParams: TSearchParams
 }
 
 const HomePage = async ({}: Props) => {
-	return <HomeView />
+	return <ExampleView />
 }
 
 export default HomePage

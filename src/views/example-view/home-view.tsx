@@ -1,13 +1,13 @@
-import Button from '@/components/Button/Button'
-import SearchDemo from '@/components/SearchDemo/SearchDemo'
-import SearchResult from '@/components/SearchDemo/SearchResult'
-import SwitchLanguage from '@/components/SwitchLanguage/SwitchLanguage'
+import Button from '@/components/button/button'
+import SearchDemo from '@/components/search-demo/search-demo'
+import SearchResult from '@/components/search-demo/search-result'
+import SwitchLanguage from '@/components/switch-language/switch-language'
 import {APP_URL} from '@/configs/app-url.config'
 import {useTranslations} from 'next-intl'
 import {FC} from 'react'
-import ModalButton from './components/ModalButton'
+import ModalButton from './components/modal-button'
 
-const HomeView: FC = ({}) => {
+const ExampleView: FC = ({}) => {
 	const t = useTranslations()
 	const features = t.raw('home.features') as Array<{
 		icon: string
@@ -71,4 +71,4 @@ const HomeView: FC = ({}) => {
 	)
 }
 
-export default HomeView
+export default ExampleView
