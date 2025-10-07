@@ -1,10 +1,8 @@
 import dumbServices from '@/services/dumb.service'
-import useSWR from 'swr'
+import {useFetch} from '../auth/use-fetch'
 
 export const useNews = () => {
-	const {data, isLoading, error} = useSWR('news', () =>
-		dumbServices.getNews({})
-	)
+	const {data, isLoading, error} = useFetch(() => dumbServices.getNews({}))
 
 	return {
 		news: data?.data,

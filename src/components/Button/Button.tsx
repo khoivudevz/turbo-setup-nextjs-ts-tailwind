@@ -1,7 +1,7 @@
 'use client'
 
 import {APP_URL} from '@/configs/app-url.config'
-import useRouter from '@/hooks/use-router'
+import useRouter from '@/hooks/auth/use-router'
 import {useTranslations} from 'next-intl'
 
 import {FC} from 'react'
