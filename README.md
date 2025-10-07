@@ -4,9 +4,9 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 
 ## Features
 
-- 🚀 Next.js 15.1.3
+- 🚀 Next.js 15.5.2
 - 📝 TypeScript
-- 🎨 TailwindCSS
+- 🎨 TailwindCSS v4
 - 🌐 i18n Support (English & Korean)
 - 🔍 ESLint + Prettier
 - 🪝 Husky Git Hooks
@@ -16,9 +16,10 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 - 🎯 Path Aliases
 - 🔒 Type-Safe API Calls
 - 🔄 **Nuqs** for URL query state management
-- ⚡ **SWR** for data fetching and caching
+- ⚡ **Custom useFetch hook** for data fetching and state management
 - 🔐 **Enhanced Cookie Management** with client/server separation
 - 🛡️ **Middleware-based Authentication** for route protection
+- 📁 **Snake-case file naming** convention for better organization
 
 ## Getting Started
 
@@ -31,21 +32,45 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 
 1. Clone the repository:
 
-```
+```bash
 git clone https://github.com/yourusername/turbo-setup-nextjs-ts-tailwind.git
+cd turbo-setup-nextjs-ts-tailwind
 ```
 
 2. Install dependencies:
 
-```
+```bash
 bun install
 ```
 
-3. Create environment files:
+3. Set up environment variables:
 
+```bash
+# Copy the example environment file
+cp .env.example .env.local
+
+# Edit the environment variables
+# NEXT_PUBLIC_ENV=development
+# NEXT_PUBLIC_API_URL=https://your-api-url.com
 ```
-cp .env
+
+4. Start the development server:
+
+```bash
+bun run dev
 ```
+
+The application will be available at `http://localhost:8000`
+
+### Quick Start
+
+After installation, you can immediately:
+
+1. **View the homepage** - See the internationalized landing page
+2. **Test the news page** - Experience the custom useFetch hook in action
+3. **Switch languages** - Toggle between English and Korean
+4. **Open modals** - Test the modal system with Zustand state management
+5. **Explore the code** - Check out the snake_case file organization
 
 ### Development
 
@@ -75,20 +100,77 @@ bun run start
 
 ```
 messages/ # Translation message files
-├── [locale].json
+├── en.json
+├── ko.json
 src/
 ├── app/ # Next.js app directory with route handlers
-├── components/ # Reusable UI components
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── news/
+│       └── page.tsx
+├── components/ # Reusable UI components (snake_case naming)
+│   ├── button/
+│   │   └── button.tsx
+│   ├── modal/
+│   │   ├── components/
+│   │   │   └── demo-modal.tsx
+│   │   ├── modal.tsx
+│   │   └── modal-wrapper.tsx
+│   ├── search-demo/
+│   │   ├── search-demo.tsx
+│   │   └── search-result.tsx
+│   └── switch-language/
+│       └── switch-language.tsx
 ├── configs/ # Configuration files (API, env, HTTP)
+│   ├── api-url.config.ts
+│   ├── app-url.config.ts
+│   ├── env.config.ts
+│   └── http.ts
 ├── constants/ # Constants and regex patterns
-├── hooks/ # Custom React hooks
+│   ├── common.constant.ts
+│   └── modals.constant.ts
+├── hooks/ # Custom React hooks (snake_case naming)
+│   ├── use-auth.ts
+│   ├── use-clear-modals.ts
+│   ├── use-fetch.ts
+│   ├── use-news.ts
+│   └── use-router.ts
 ├── i18n/ # Internationalization configuration
-├── providers/ # React context providers
+│   ├── config.ts
+│   └── request.ts
+├── providers/ # React context providers (snake_case naming)
+│   ├── app-provider.tsx
+│   ├── auth-provider.tsx
+│   └── modals-provider.tsx
 ├── services/ # API and utility services
+│   ├── auth.service.ts
+│   ├── cookie-client.service.ts
+│   ├── cookie-server.service.ts
+│   ├── cookie.service.ts
+│   ├── dumb.service.ts
+│   ├── locale-client.service.ts
+│   └── locale-server.service.ts
+├── stores/ # Zustand stores (snake_case naming)
+│   ├── use-count.store.ts
+│   └── use-modal.store.ts
 ├── styles/ # Global styles and Tailwind config
+│   └── globals.css
 ├── types/ # TypeScript type definitions
-├── utils/ # Utility functions
-└── views/ # Page-specific view components
+│   ├── api.type.ts
+│   └── common.type.ts
+├── utils/ # Utility functions (snake_case naming)
+│   ├── cn.util.ts
+│   ├── delay.util.ts
+│   ├── format-date.util.ts
+│   ├── string.util.ts
+│   └── validate.util.ts
+└── views/ # Page-specific view components (snake_case naming)
+    ├── home-view/
+    │   ├── components/
+    │   │   └── modal-button.tsx
+    │   └── home-view.tsx
+    └── news-view/
+        └── news-view.tsx
 ```
 
 ## Internationalization
@@ -143,7 +225,7 @@ The internationalization setup is configured in:
 - `src/i18n/config.ts` - Locale configuration and defaults
 - `src/i18n/request.ts` - Server-side locale detection
 
-## Nuqs & SWR Integration
+## Nuqs & Custom useFetch Integration
 
 The project uses modern data management solutions:
 
@@ -151,17 +233,37 @@ The project uses modern data management solutions:
 
 `nuqs` is used for managing URL query state, allowing seamless synchronization of component state with URL query parameters. This enhances the user experience by maintaining state across page reloads and navigations.
 
-### SWR
+### Custom useFetch Hook
 
-`swr` provides a powerful data fetching and caching solution with features like:
+The project includes a custom `useFetch` hook that provides a lightweight alternative to SWR with the following features:
 
-- Automatic revalidation
-- Real-time experience
-- Suspense mode support
-- TypeScript ready
-- Request deduplication
-- Error handling
-- Optimistic UI updates
+- **Automatic data fetching** with immediate execution option
+- **Loading and error states** for better UX
+- **Manual execution control** with `execute()` function
+- **Success/error callbacks** for custom handling
+- **Reset functionality** to clear state
+- **TypeScript ready** with full type safety
+- **Conditional fetching** with `enabled` option
+- **No external dependencies** - pure React implementation
+
+#### Hook Interface
+
+```typescript
+interface UseFetchOptions {
+	immediate?: boolean // Auto-fetch on mount (default: true)
+	enabled?: boolean // Enable/disable fetching (default: true)
+	onSuccess?: (data: any) => void
+	onError?: (error: any) => void
+}
+
+interface UseFetchReturn<T> {
+	data: T | null
+	isLoading: boolean
+	error: any
+	execute: () => Promise<void> // Manual trigger
+	reset: () => void // Clear state
+}
+```
 
 ### Example Usage
 
@@ -174,14 +276,77 @@ const SearchDemo = () => {
 	// ... component logic
 }
 
-// SWR example
-import useSWR from 'swr'
+// Custom useFetch example
+import {useFetch} from '@/hooks/use-fetch'
 
 const DataComponent = () => {
-	const {data, error, isLoading} = useSWR('/api/data', fetcher)
+	const {data, error, isLoading, execute, reset} = useFetch(() =>
+		fetch('/api/data').then((res) => res.json())
+	)
+
 	// ... component logic
 }
+
+// Advanced usage with options
+const AdvancedComponent = () => {
+	const {data, error, isLoading, execute} = useFetch(
+		() => fetchUserData(userId),
+		{
+			immediate: false,  // Don't auto-fetch
+			enabled: !!userId, // Only fetch when userId exists
+			onSuccess: (user) => console.log('User loaded:', user),
+			onError: (err) => console.error('Failed to load user:', err)
+		}
+	)
+
+	return (
+		<div>
+			{isLoading && <div>Loading...</div>}
+			{error && <div>Error: {error.message}</div>}
+			{data && <div>User: {data.name}</div>}
+			<button onClick={execute}>Refresh</button>
+		</div>
+	)
+}
 ```
+
+## File Naming Convention
+
+This project follows a **snake_case** naming convention for better organization and consistency:
+
+### Naming Rules
+
+- **Files**: Use snake_case (e.g., `use-auth.ts`, `modal-wrapper.tsx`)
+- **Directories**: Use snake_case (e.g., `home-view/`, `search-demo/`)
+- **Components**: Use PascalCase in code, snake_case for filenames
+- **Hooks**: Use snake_case with `use-` prefix (e.g., `use-fetch.ts`)
+- **Stores**: Use snake_case with `.store.ts` suffix (e.g., `use-modal.store.ts`)
+- **Utils**: Use snake_case with `.util.ts` suffix (e.g., `format-date.util.ts`)
+
+### Examples
+
+```
+✅ Correct:
+- src/hooks/use-auth.ts
+- src/components/modal/modal-wrapper.tsx
+- src/views/home-view/home-view.tsx
+- src/stores/use-modal.store.ts
+- src/utils/format-date.util.ts
+
+❌ Avoid:
+- src/hooks/useAuth.ts
+- src/components/Modal/ModalWrapper.tsx
+- src/views/HomeView/HomeView.tsx
+- src/stores/useModal.store.ts
+- src/utils/formatDate.util.ts
+```
+
+### Benefits
+
+- **Consistency**: Uniform naming across all files
+- **Readability**: Easier to scan and understand file structure
+- **Maintainability**: Clear patterns for different file types
+- **Team Collaboration**: Reduces naming conflicts and confusion
 
 ## Enhanced Cookie Management
 
@@ -263,12 +428,12 @@ const authRoutes = ['/login', '/register'] // Redirect away if already authentic
 // - Preserves callback URLs for seamless post-login experience
 ```
 
-#### 2. Client-Side Auth Hook (`src/hooks/useAuth.ts`)
+#### 2. Client-Side Auth Hook (`src/hooks/use-auth.ts`)
 
 Manages authentication state and operations:
 
 ```typescript
-import {useAuthContext} from '@/providers/AuthProvider'
+import {useAuthContext} from '@/providers/auth-provider'
 
 const {user, isAuthenticated, login, logout, isLoading} = useAuthContext()
 
@@ -284,13 +449,13 @@ if (isAuthenticated) {
 }
 ```
 
-#### 3. Auth Provider (`src/providers/AuthProvider.tsx`)
+#### 3. Auth Provider (`src/providers/auth-provider.tsx`)
 
 Provides global authentication context:
 
 ```typescript
 // app/layout.tsx
-import { AuthProvider } from '@/providers/AuthProvider'
+import { AuthProvider } from '@/providers/auth-provider'
 
 export default function RootLayout({ children }) {
   return (
@@ -319,7 +484,7 @@ export default function DashboardPage() {
 #### Navigation with Auth State
 
 ```typescript
-import { useAuthContext } from '@/providers/AuthProvider'
+import { useAuthContext } from '@/providers/auth-provider'
 
 export function Navigation() {
   const { isAuthenticated, user, logout } = useAuthContext()
@@ -344,7 +509,7 @@ export function Navigation() {
 ```typescript
 // app/login/page.tsx
 'use client'
-import { useAuthContext } from '@/providers/AuthProvider'
+import { useAuthContext } from '@/providers/auth-provider'
 
 export default function LoginPage() {
   const { login, isLoading } = useAuthContext()
@@ -378,19 +543,66 @@ This project uses Husky for Git hooks:
 - Pre-commit: Runs TypeScript compilation, lint-staged, and build
 - Commit message: Enforces conventional commit messages
 
+## Development Workflow
+
+### Available Scripts
+
+```bash
+# Development
+bun run dev          # Start development server with Turbopack
+bun run build        # Build for production
+bun run start        # Start production server
+bun run lint         # Run ESLint
+
+# Git Hooks (automatic)
+# Pre-commit: Runs linting and type checking
+# Commit: Enforces conventional commit messages
+```
+
+### Development Features
+
+- **Turbopack**: Fast development builds with Next.js 15
+- **Hot Reload**: Instant updates during development
+- **TypeScript**: Full type checking and IntelliSense
+- **ESLint**: Code quality and consistency
+- **Prettier**: Automatic code formatting
+- **Husky**: Git hooks for quality assurance
+
 ## Environment Variables
 
-The project supports multiple environments:
+The project supports multiple environments with centralized configuration:
 
-- Development (.env.dev)
-- Staging (.env.staging)
-- Production (.env.prod)
+### Environment Files
 
-Required environment variables:
+- `.env.local` - Local development overrides
+- `.env.dev` - Development environment
+- `.env.staging` - Staging environment
+- `.env.prod` - Production environment
+
+### Required Variables
 
 ```env
-NEXT_PUBLIC_ENV=
-NEXT_PUBLIC_USER_API_URL=
+# Environment
+NEXT_PUBLIC_ENV=development|staging|production
+
+# API Configuration
+NEXT_PUBLIC_USER_API_URL=https://api.example.com
+NEXT_PUBLIC_API_URL=https://api.example.com
+
+# Optional: Analytics, Sentry, etc.
+NEXT_PUBLIC_ANALYTICS_ID=your-analytics-id
+```
+
+### Configuration Management
+
+Environment variables are managed through `src/configs/env.config.ts`:
+
+```typescript
+export const PUBLIC_ENV = {
+	ENV: process.env.NEXT_PUBLIC_ENV || 'development',
+	USER_API_URL: process.env.NEXT_PUBLIC_USER_API_URL || '',
+	API_URL: process.env.NEXT_PUBLIC_API_URL || '',
+} as const
 ```
 
 ## License
