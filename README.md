@@ -4,7 +4,8 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 
 ## Features
 
-- 🚀 Next.js 15.5.2
+- 🚀 Next.js 16.0.3
+- ⚛️ **React Compiler** enabled for automatic optimization
 - 📝 TypeScript
 - 🎨 TailwindCSS v4
 - 🌐 i18n Support (English & Korean)
@@ -549,7 +550,7 @@ This project uses Husky for Git hooks:
 
 ```bash
 # Development
-bun run dev          # Start development server with Turbopack
+bun run dev          # Start development server with Webpack
 bun run build        # Build for production
 bun run start        # Start production server
 bun run lint         # Run ESLint
@@ -561,7 +562,8 @@ bun run lint         # Run ESLint
 
 ### Development Features
 
-- **Turbopack**: Fast development builds with Next.js 15
+- **Webpack**: Stable development builds with Next.js 16
+- **React Compiler**: Automatic optimization of React components
 - **Hot Reload**: Instant updates during development
 - **TypeScript**: Full type checking and IntelliSense
 - **ESLint**: Code quality and consistency
@@ -604,6 +606,30 @@ export const PUBLIC_ENV = {
 	API_URL: process.env.NEXT_PUBLIC_API_URL || '',
 } as const
 ```
+
+## React Compiler
+
+The project uses [React Compiler](https://react.dev/learn/react-compiler) for automatic optimization of React components. The compiler is enabled in `next.config.ts`:
+
+```typescript
+const nextConfig: NextConfig = {
+	distDir: 'build',
+	reactCompiler: true,
+}
+```
+
+### Benefits
+
+- **Automatic Memoization**: Components and hooks are automatically memoized
+- **Performance Optimization**: Reduces unnecessary re-renders
+- **Zero Configuration**: Works out of the box with Next.js 16
+- **Type Safety**: Full TypeScript support
+
+### How It Works
+
+The React Compiler automatically optimizes your React code during the build process. It analyzes your components and hooks to determine when memoization is beneficial, eliminating the need for manual `useMemo`, `useCallback`, and `React.memo` in most cases.
+
+**Note**: The compiler is enabled via the `reactCompiler: true` option in Next.js config. No additional Babel plugins or configuration needed - Next.js 16 handles it natively.
 
 ## License
 
