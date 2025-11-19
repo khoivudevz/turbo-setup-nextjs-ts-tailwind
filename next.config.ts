@@ -5,6 +5,7 @@ const withNextIntl = createNextIntlPlugin()
 
 const nextConfig: NextConfig = {
 	distDir: 'build',
+	reactCompiler: true,
 }
 
 export default withNextIntl(nextConfig)

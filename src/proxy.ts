@@ -5,7 +5,7 @@ import type {NextRequest} from 'next/server'
 const protectedRoutes = ['/profile']
 const authRoutes = ['/login'] // Routes that redirect away if already authenticated
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
 	const {pathname} = request.nextUrl
 	const token = request.cookies.get('authToken')?.value
 	const isAuthenticated = !!token
