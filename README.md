@@ -4,11 +4,11 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 
 ## Features
 
-- 🚀 Next.js 16.0.3
-- ⚛️ **React Compiler** enabled for automatic optimization
+- 🚀 Next.js 16.0.10
+- ⚛️ **React 19.2.3** with **React Compiler** enabled for automatic optimization
 - 📝 TypeScript
 - 🎨 TailwindCSS v4
-- 🌐 i18n Support (English & Korean)
+- 🌐 i18n Support (English & Korean) with **next-intl**
 - 🔍 ESLint + Prettier
 - 🪝 Husky Git Hooks
 - 🏷️ Conventional Commits
@@ -17,10 +17,10 @@ A modern, feature-rich Next.js boilerplate with TypeScript, TailwindCSS, and int
 - 🎯 Path Aliases
 - 🔒 Type-Safe API Calls
 - 🔄 **Nuqs** for URL query state management
-- ⚡ **Custom useFetch hook** for data fetching and state management
+- ⚡ **Custom useFetch & useMutation hooks** for data fetching and mutations
 - 🔐 **Enhanced Cookie Management** with client/server separation
 - 🛡️ **Middleware-based Authentication** for route protection
-- 📁 **Snake-case file naming** convention for better organization
+- 📁 **Snake-case file naming** convention with organized subdirectories
 
 ## Getting Started
 
@@ -71,7 +71,7 @@ After installation, you can immediately:
 2. **Test the news page** - Experience the custom useFetch hook in action
 3. **Switch languages** - Toggle between English and Korean
 4. **Open modals** - Test the modal system with Zustand state management
-5. **Explore the code** - Check out the snake_case file organization
+5. **Explore the code** - Check out the feature-based hooks organization (`hooks/auth/`, `hooks/news/`)
 
 ### Development
 
@@ -130,12 +130,16 @@ src/
 ├── constants/ # Constants and regex patterns
 │   ├── common.constant.ts
 │   └── modals.constant.ts
-├── hooks/ # Custom React hooks (snake_case naming)
-│   ├── use-auth.ts
-│   ├── use-clear-modals.ts
-│   ├── use-fetch.ts
-│   ├── use-news.ts
-│   └── use-router.ts
+├── hooks/ # Custom React hooks (organized by feature)
+│   ├── auth/ # Authentication-related hooks
+│   │   ├── use-auth.ts
+│   │   ├── use-clear-modals.ts
+│   │   ├── use-fetch.ts
+│   │   ├── use-mutation.ts
+│   │   └── use-router.ts
+│   ├── common/ # Common/shared hooks
+│   └── news/ # News feature hooks
+│       └── use-news.ts
 ├── i18n/ # Internationalization configuration
 │   ├── config.ts
 │   └── request.ts
@@ -166,7 +170,7 @@ src/
 │   ├── string.util.ts
 │   └── validate.util.ts
 └── views/ # Page-specific view components (snake_case naming)
-    ├── home-view/
+    ├── example-view/
     │   ├── components/
     │   │   └── modal-button.tsx
     │   └── home-view.tsx
@@ -226,7 +230,7 @@ The internationalization setup is configured in:
 - `src/i18n/config.ts` - Locale configuration and defaults
 - `src/i18n/request.ts` - Server-side locale detection
 
-## Nuqs & Custom useFetch Integration
+## Nuqs & Custom Hooks Integration
 
 The project uses modern data management solutions:
 
@@ -247,7 +251,7 @@ The project includes a custom `useFetch` hook that provides a lightweight altern
 - **Conditional fetching** with `enabled` option
 - **No external dependencies** - pure React implementation
 
-#### Hook Interface
+#### useFetch Interface
 
 ```typescript
 interface UseFetchOptions {
@@ -266,6 +270,37 @@ interface UseFetchReturn<T> {
 }
 ```
 
+### Custom useMutation Hook
+
+The project also includes a `useMutation` hook for handling data mutations (POST, PUT, DELETE operations):
+
+- **Loading, error, and success states** for complete control
+- **Callbacks** for onSuccess, onError, and onSettled
+- **mutate and mutateAsync** functions for different use cases
+- **Reset functionality** to clear state
+- **TypeScript ready** with full type safety
+
+#### useMutation Interface
+
+```typescript
+type UseMutationOptions<TData> = {
+	onSuccess?: (data: TData) => void
+	onError?: (error: any) => void
+	onSettled?: (data: TData | undefined, error: any) => void
+}
+
+type UseMutationReturn<TData> = {
+	data: TData | null
+	isLoading: boolean
+	isError: boolean
+	isSuccess: boolean
+	error: any
+	mutate: <TVariables>(mutationFn, variables?) => Promise<TData | undefined>
+	mutateAsync: <TVariables>(mutationFn, variables?) => Promise<TData>
+	reset: () => void
+}
+```
+
 ### Example Usage
 
 ```typescript
@@ -278,7 +313,7 @@ const SearchDemo = () => {
 }
 
 // Custom useFetch example
-import {useFetch} from '@/hooks/use-fetch'
+import {useFetch} from '@/hooks/auth/use-fetch'
 
 const DataComponent = () => {
 	const {data, error, isLoading, execute, reset} = useFetch(() =>
@@ -288,7 +323,7 @@ const DataComponent = () => {
 	// ... component logic
 }
 
-// Advanced usage with options
+// Advanced useFetch with options
 const AdvancedComponent = () => {
 	const {data, error, isLoading, execute} = useFetch(
 		() => fetchUserData(userId),
@@ -309,18 +344,47 @@ const AdvancedComponent = () => {
 		</div>
 	)
 }
+
+// Custom useMutation example
+import {useMutation} from '@/hooks/auth/use-mutation'
+
+const CreateUserComponent = () => {
+	const {mutate, isLoading, isSuccess, isError, error, reset} = useMutation({
+		onSuccess: (data) => console.log('User created:', data),
+		onError: (err) => console.error('Failed to create user:', err),
+	})
+
+	const handleSubmit = async (userData) => {
+		await mutate(
+			(data) => fetch('/api/users', {
+				method: 'POST',
+				body: JSON.stringify(data)
+			}).then(res => res.json()),
+			userData
+		)
+	}
+
+	return (
+		<form onSubmit={handleSubmit}>
+			{isLoading && <div>Creating user...</div>}
+			{isSuccess && <div>User created successfully!</div>}
+			{isError && <div>Error: {error.message}</div>}
+			{/* form fields */}
+		</form>
+	)
+}
 ```
 
 ## File Naming Convention
 
-This project follows a **snake_case** naming convention for better organization and consistency:
+This project follows a **snake_case** naming convention with **feature-based organization** for better scalability:
 
 ### Naming Rules
 
 - **Files**: Use snake_case (e.g., `use-auth.ts`, `modal-wrapper.tsx`)
-- **Directories**: Use snake_case (e.g., `home-view/`, `search-demo/`)
+- **Directories**: Use snake_case (e.g., `example-view/`, `search-demo/`)
 - **Components**: Use PascalCase in code, snake_case for filenames
-- **Hooks**: Use snake_case with `use-` prefix (e.g., `use-fetch.ts`)
+- **Hooks**: Organized by feature with `use-` prefix (e.g., `hooks/auth/use-fetch.ts`)
 - **Stores**: Use snake_case with `.store.ts` suffix (e.g., `use-modal.store.ts`)
 - **Utils**: Use snake_case with `.util.ts` suffix (e.g., `format-date.util.ts`)
 
@@ -328,9 +392,12 @@ This project follows a **snake_case** naming convention for better organization 
 
 ```
 ✅ Correct:
-- src/hooks/use-auth.ts
+- src/hooks/auth/use-auth.ts
+- src/hooks/auth/use-fetch.ts
+- src/hooks/auth/use-mutation.ts
+- src/hooks/news/use-news.ts
 - src/components/modal/modal-wrapper.tsx
-- src/views/home-view/home-view.tsx
+- src/views/example-view/home-view.tsx
 - src/stores/use-modal.store.ts
 - src/utils/format-date.util.ts
 
@@ -342,8 +409,25 @@ This project follows a **snake_case** naming convention for better organization 
 - src/utils/formatDate.util.ts
 ```
 
+### Feature-Based Organization
+
+Hooks are organized by feature/domain for better scalability:
+
+```
+src/hooks/
+├── auth/           # Authentication-related hooks
+│   ├── use-auth.ts
+│   ├── use-fetch.ts
+│   ├── use-mutation.ts
+│   └── use-router.ts
+├── common/         # Shared/common hooks
+└── news/           # News feature hooks
+    └── use-news.ts
+```
+
 ### Benefits
 
+- **Scalability**: Easy to add new features without cluttering the structure
 - **Consistency**: Uniform naming across all files
 - **Readability**: Easier to scan and understand file structure
 - **Maintainability**: Clear patterns for different file types
@@ -429,7 +513,7 @@ const authRoutes = ['/login', '/register'] // Redirect away if already authentic
 // - Preserves callback URLs for seamless post-login experience
 ```
 
-#### 2. Client-Side Auth Hook (`src/hooks/use-auth.ts`)
+#### 2. Client-Side Auth Hook (`src/hooks/auth/use-auth.ts`)
 
 Manages authentication state and operations:
 
@@ -562,7 +646,8 @@ bun run lint         # Run ESLint
 
 ### Development Features
 
-- **Webpack**: Stable development builds with Next.js 16
+- **Webpack Mode**: Stable development builds with Next.js 16.0.10 (`--webpack` flag)
+- **React 19.2.3**: Latest React with new features and improvements
 - **React Compiler**: Automatic optimization of React components
 - **Hot Reload**: Instant updates during development
 - **TypeScript**: Full type checking and IntelliSense
@@ -622,14 +707,33 @@ const nextConfig: NextConfig = {
 
 - **Automatic Memoization**: Components and hooks are automatically memoized
 - **Performance Optimization**: Reduces unnecessary re-renders
-- **Zero Configuration**: Works out of the box with Next.js 16
+- **Zero Configuration**: Works out of the box with Next.js 16.0.10
 - **Type Safety**: Full TypeScript support
+- **React 19.2.3 Compatible**: Fully compatible with latest React features
 
 ### How It Works
 
 The React Compiler automatically optimizes your React code during the build process. It analyzes your components and hooks to determine when memoization is beneficial, eliminating the need for manual `useMemo`, `useCallback`, and `React.memo` in most cases.
 
-**Note**: The compiler is enabled via the `reactCompiler: true` option in Next.js config. No additional Babel plugins or configuration needed - Next.js 16 handles it natively.
+**Note**: The compiler is enabled via the `reactCompiler: true` option in Next.js config. The project also includes `babel-plugin-react-compiler` for additional optimization support.
+
+## Technologies Used
+
+| Technology | Version | Description |
+|------------|---------|-------------|
+| Next.js | 16.0.10 | React framework with App Router |
+| React | 19.2.3 | UI library with compiler optimizations |
+| TypeScript | 5.9.3 | Type-safe JavaScript |
+| TailwindCSS | 4.1.18 | Utility-first CSS framework |
+| Zustand | 5.0.9 | Lightweight state management |
+| next-intl | 4.6.0 | Internationalization for Next.js |
+| nuqs | 2.8.5 | URL query state management |
+| Axios | 1.13.2 | HTTP client |
+| Day.js | 1.11.19 | Date manipulation |
+| styled-components | 6.1.19 | CSS-in-JS |
+| Husky | 9.1.7 | Git hooks |
+| ESLint | 9.39.2 | Code linting |
+| Prettier | 3.7.4 | Code formatting |
 
 ## License
 
