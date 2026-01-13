@@ -5,7 +5,6 @@ import SwitchLanguage from '@/components/switch-language/switch-language'
 import {APP_URL} from '@/configs/app-url.config'
 import {useTranslations} from 'next-intl'
 import {FC} from 'react'
-import ModalButton from './components/modal-button'
 
 const ExampleView: FC = ({}) => {
 	const t = useTranslations()
@@ -27,7 +26,6 @@ const ExampleView: FC = ({}) => {
 				<p className='text-md text-gray-400 mb-6'>{t('home.description')}</p>
 				<div className='flex flex-col items-center'>
 					<Button page={APP_URL.HOME} />
-					<ModalButton />
 				</div>
 			</section>
 
