@@ -5,7 +5,6 @@ import '@/styles/globals.css'
 import {NextIntlClientProvider} from 'next-intl'
 import {getLocale, getMessages} from 'next-intl/server'
 import {NuqsAdapter} from 'nuqs/adapters/next/app'
-import ModalsProvider from '@/providers/modals-provider'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -37,11 +36,9 @@ export default async function RootLayout({
 			>
 				<NuqsAdapter>
 					<AppProvider>
-						<ModalsProvider>
-							<NextIntlClientProvider messages={messages}>
-								{children}
-							</NextIntlClientProvider>
-						</ModalsProvider>
+						<NextIntlClientProvider messages={messages}>
+							{children}
+						</NextIntlClientProvider>
 					</AppProvider>
 				</NuqsAdapter>
 			</body>

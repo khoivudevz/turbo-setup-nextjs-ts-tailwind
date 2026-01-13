@@ -69,9 +69,6 @@ After installation, you can immediately:
 
 1. **View the homepage** - See the internationalized landing page
 2. **Test the news page** - Experience the custom useFetch hook in action
-3. **Switch languages** - Toggle between English and Korean
-4. **Open modals** - Test the modal system with Zustand state management
-5. **Explore the code** - Check out the feature-based hooks organization (`hooks/auth/`, `hooks/news/`)
 
 ### Development
 
@@ -113,10 +110,7 @@ src/
 │   ├── button/
 │   │   └── button.tsx
 │   ├── modal/
-│   │   ├── components/
-│   │   │   └── demo-modal.tsx
-│   │   ├── modal.tsx
-│   │   └── modal-wrapper.tsx
+│   │   └── modal.tsx
 │   ├── search-demo/
 │   │   ├── search-demo.tsx
 │   │   └── search-result.tsx
@@ -128,12 +122,10 @@ src/
 │   ├── env.config.ts
 │   └── http.ts
 ├── constants/ # Constants and regex patterns
-│   ├── common.constant.ts
-│   └── modals.constant.ts
+│   └── common.constant.ts
 ├── hooks/ # Custom React hooks (organized by feature)
 │   ├── auth/ # Authentication-related hooks
 │   │   ├── use-auth.ts
-│   │   ├── use-clear-modals.ts
 │   │   ├── use-fetch.ts
 │   │   ├── use-mutation.ts
 │   │   └── use-router.ts
@@ -145,8 +137,7 @@ src/
 │   └── request.ts
 ├── providers/ # React context providers (snake_case naming)
 │   ├── app-provider.tsx
-│   ├── auth-provider.tsx
-│   └── modals-provider.tsx
+│   └── auth-provider.tsx
 ├── services/ # API and utility services
 │   ├── auth.service.ts
 │   ├── cookie-client.service.ts
@@ -156,8 +147,7 @@ src/
 │   ├── locale-client.service.ts
 │   └── locale-server.service.ts
 ├── stores/ # Zustand stores (snake_case naming)
-│   ├── use-count.store.ts
-│   └── use-modal.store.ts
+│   └── use-count.store.ts
 ├── styles/ # Global styles and Tailwind config
 │   └── globals.css
 ├── types/ # TypeScript type definitions
@@ -171,8 +161,6 @@ src/
 │   └── validate.util.ts
 └── views/ # Page-specific view components (snake_case naming)
     ├── example-view/
-    │   ├── components/
-    │   │   └── modal-button.tsx
     │   └── home-view.tsx
     └── news-view/
         └── news-view.tsx
@@ -396,9 +384,7 @@ This project follows a **snake_case** naming convention with **feature-based org
 - src/hooks/auth/use-fetch.ts
 - src/hooks/auth/use-mutation.ts
 - src/hooks/news/use-news.ts
-- src/components/modal/modal-wrapper.tsx
 - src/views/example-view/home-view.tsx
-- src/stores/use-modal.store.ts
 - src/utils/format-date.util.ts
 
 ❌ Avoid:
@@ -719,21 +705,21 @@ The React Compiler automatically optimizes your React code during the build proc
 
 ## Technologies Used
 
-| Technology | Version | Description |
-|------------|---------|-------------|
-| Next.js | 16.0.10 | React framework with App Router |
-| React | 19.2.3 | UI library with compiler optimizations |
-| TypeScript | 5.9.3 | Type-safe JavaScript |
-| TailwindCSS | 4.1.18 | Utility-first CSS framework |
-| Zustand | 5.0.9 | Lightweight state management |
-| next-intl | 4.6.0 | Internationalization for Next.js |
-| nuqs | 2.8.5 | URL query state management |
-| Axios | 1.13.2 | HTTP client |
-| Day.js | 1.11.19 | Date manipulation |
-| styled-components | 6.1.19 | CSS-in-JS |
-| Husky | 9.1.7 | Git hooks |
-| ESLint | 9.39.2 | Code linting |
-| Prettier | 3.7.4 | Code formatting |
+| Technology        | Version | Description                            |
+| ----------------- | ------- | -------------------------------------- |
+| Next.js           | 16.0.10 | React framework with App Router        |
+| React             | 19.2.3  | UI library with compiler optimizations |
+| TypeScript        | 5.9.3   | Type-safe JavaScript                   |
+| TailwindCSS       | 4.1.18  | Utility-first CSS framework            |
+| Zustand           | 5.0.9   | Lightweight state management           |
+| next-intl         | 4.6.0   | Internationalization for Next.js       |
+| nuqs              | 2.8.5   | URL query state management             |
+| Axios             | 1.13.2  | HTTP client                            |
+| Day.js            | 1.11.19 | Date manipulation                      |
+| styled-components | 6.1.19  | CSS-in-JS                              |
+| Husky             | 9.1.7   | Git hooks                              |
+| ESLint            | 9.39.2  | Code linting                           |
+| Prettier          | 3.7.4   | Code formatting                        |
 
 ## License
 
