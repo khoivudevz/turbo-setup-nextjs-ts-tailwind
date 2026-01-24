@@ -1,4 +1,4 @@
-import Button from '@/components/button/button'
+import Button from '@/components/Button/button'
 import SearchDemo from '@/components/search-demo/search-demo'
 import SearchResult from '@/components/search-demo/search-result'
 import SwitchLanguage from '@/components/switch-language/switch-language'
