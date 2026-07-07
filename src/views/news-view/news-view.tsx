@@ -8,10 +8,12 @@ import {FC} from 'react'
 
 type NewsViewProps = {
 	news?: {
-		ticker: string
+		id: string
 		name: string
-		is_etf: boolean | null
-		exchange: string
+		data?: {
+			color?: string
+			capacity?: string
+		}
 	}[]
 }
 
@@ -39,13 +41,13 @@ const NewsView: FC<NewsViewProps> = ({news = []}) => {
 				)}
 				{news.map((item) => (
 					<div
-						key={item.ticker}
+						key={item.id}
 						className='bg-gray-900/80 rounded-xl p-6 shadow-lg border border-pink-700/40 w-full mb-4'
 					>
 						<h4 className='text-lg font-semibold mb-2 text-pink-300'>
-							📰 {item.name}
+							📰 {item?.name || '-'}
 						</h4>
-						<p className='text-gray-300'>{item.exchange}</p>
+						<p className='text-gray-300'>{item?.data?.color || '-'}</p>
 					</div>
 				))}
 			</section>
